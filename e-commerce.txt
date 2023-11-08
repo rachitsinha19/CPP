@@ -1,0 +1,30 @@
+#include <iostream>
+
+template <typename T>
+T calculateTotalCost(const T prices[], int n) {
+    T totalCost = 0;
+    for (int i = 0; i < n; ++i) {
+        totalCost += prices[i];
+    }
+    return totalCost;
+}
+
+int main() {
+    int n;
+    std::cin >> n;
+
+    // Input product prices
+    double* prices = new double[n];
+    for (int i = 0; i < n; ++i) {
+        std::cin >> prices[i];
+    }
+
+    // Calculate and display total cost
+    double totalCost = calculateTotalCost(prices, n);
+    std::cout << totalCost << std::endl;
+
+    // Free allocated memory
+    delete[] prices;
+
+    return 0;
+}

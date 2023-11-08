@@ -1,0 +1,26 @@
+#include <iostream>
+
+template<class T>
+T maxValue(T a, T b) {
+    return (a > b) ? a : b;
+}
+
+int main() {
+    // Input for integers
+    int intA, intB;
+    std::cin >> intA >> intB;
+
+    // Input for doubles
+    double doubleC, doubleD;
+    std::cin >> doubleC >> doubleD;
+
+    // Find and display the maximum value for integers
+    int maxInt = maxValue(intA, intB);
+    std::cout << "Maximum value: " << maxInt << std::endl;
+
+    // Find and display the maximum value for doubles
+    double maxDouble = maxValue(doubleC, doubleD);
+    std::cout << "Maximum value: " << maxDouble << std::endl;
+
+    return 0;
+}
