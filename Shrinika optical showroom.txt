@@ -1,0 +1,97 @@
+#include <iostream>
+#include <vector>
+
+const int MAX_STOCK = 100;
+
+// Custom exception for invalid eyeglass ID
+class InvalidIDException : public std::exception {
+public:
+    const char* what() const throw() {
+        return "Invalid eyeglass ID.";
+    }
+};
+
+// Custom exception for out of stock
+class OutOfStockException : public std::exception {
+public:
+    const char* what() const throw() {
+        return "Eyeglass out of stock.";
+    }
+};
+
+// Eyeglass class
+class Eyeglass {
+public:
+    int id;
+
+    // Constructor
+    Eyeglass(int eyeglassID) : id(eyeglassID) {}
+};
+
+// OpticalShowroom class
+class OpticalShowroom {
+private:
+    std::vector<Eyeglass> eyeglasses;
+
+public:
+    // Method to add eyeglass to the showroom
+    void addEyeglass(int eyeglassID) {
+        if (eyeglasses.size() < MAX_STOCK) {
+            eyeglasses.push_back(Eyeglass(eyeglassID));
+            std::cout << "Eyeglass with ID " << eyeglassID << " added to the showroom." << std::endl;
+        } else {
+            throw OutOfStockException();
+        }
+    }
+
+    // Method to sell eyeglass to the customer
+    void sellEyeglass(int customerID) {
+        bool found = false;
+        for (auto it = eyeglasses.begin(); it != eyeglasses.end(); ++it) {
+            if (it->id == customerID) {
+                found = true;
+                eyeglasses.erase(it);
+                std::cout << "Eyeglass with ID " << customerID << " sold." << std::endl;
+                break;
+            }
+        }
+
+        if (!found) {
+            throw InvalidIDException();
+        }
+    }
+};
+
+int main() {
+    OpticalShowroom showroom;
+
+    // Input: Number of eyeglasses to be added
+    int n;
+    std::cin >> n;
+
+    // Input: IDs of eyeglasses to be added
+    for (int i = 0; i < n; ++i) {
+        int eyeglassID;
+        std::cin >> eyeglassID;
+
+        try {
+            showroom.addEyeglass(eyeglassID);
+        } catch (const OutOfStockException& e) {
+            std::cout << "Exception caught. Error: " << e.what() << std::endl;
+        }
+    }
+
+    // Input: ID of eyeglass that a customer wants to buy
+    int customerID;
+    std::cin >> customerID;
+
+    try {
+        showroom.sellEyeglass(customerID);
+    } catch (const InvalidIDException& e) {
+        std::cout << "Exception caught. Error: " << e.what() << std::endl;
+    } catch (const OutOfStockException& e) {
+        std::cout << "Exception caught. Error: " << e.what() << std::endl;
+    }
+
+    return 0;
+}

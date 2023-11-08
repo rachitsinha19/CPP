@@ -1,0 +1,37 @@
+#include <iostream>
+
+int main() {
+    try {
+        // Input: Size of the array
+        int n;
+        std::cin >> n;
+
+        // Check if the array size is positive
+        if (n <= 0) {
+            throw std::runtime_error("Array size should be a positive number.");
+        }
+
+        // Dynamically allocate memory for the array
+        int* arr = new int[n];
+
+        // Input: Elements of the array
+        for (int i = 0; i < n; ++i) {
+            std::cin >> arr[i];
+        }
+
+        // Output: Display the array elements separated by space
+        for (int i = 0; i < n; ++i) {
+            std::cout << arr[i] << " ";
+        }
+
+        // Deallocate memory for the array
+        delete[] arr;
+
+        std::cout << std::endl;
+
+    } catch (const std::exception& e) {
+        std::cout << "Exception caught. " << e.what() << std::endl;
+    }
+
+    return 0;
+}

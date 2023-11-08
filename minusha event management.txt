@@ -1,0 +1,93 @@
+#include <iostream>
+#include <unordered_map>
+#include <stdexcept>
+
+class InvalidEventIDException : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "Invalid event ID.";
+    }
+};
+
+class InsufficientSeatsException : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "Insufficient seats available for booking.";
+    }
+};
+
+class MaxEventsReachedException : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "Maximum number of events reached.";
+    }
+};
+
+class EventManagementSystem {
+private:
+    std::unordered_map<std::string, int> events;  // Event ID to available seats mapping
+    static const int MAX_EVENTS = 20;
+
+public:
+    void addEvent(const std::string& eventID, int totalSeats) {
+        if (events.size() >= MAX_EVENTS) {
+            throw MaxEventsReachedException();
+        }
+
+        events[eventID] = totalSeats;
+        std::cout << "Event with ID " << eventID << " added with " << totalSeats << " seats." << std::endl;
+    }
+
+    void bookTickets(const std::string& eventID, int numTickets) {
+        if (events.find(eventID) == events.end()) {
+            throw InvalidEventIDException();
+        }
+
+        if (numTickets > events[eventID]) {
+            throw InsufficientSeatsException();
+        }
+
+        events[eventID] -= numTickets;
+        std::cout << numTickets << " tickets booked for event with ID " << eventID << ". Remaining seats: "
+                  << events[eventID] << std::endl;
+    }
+};
+
+int main() {
+    try {
+        EventManagementSystem eventManager;
+
+        // Input: Number of events
+        int n;
+        std::cin >> n;
+
+        for (int i = 0; i < n; ++i) {
+            // Input: Event details (ID and total seats)
+            std::string eventID;
+            int totalSeats;
+            std::cin >> eventID >> totalSeats;
+
+            // Add event to the management system
+            eventManager.addEvent(eventID, totalSeats);
+        }
+
+        // Input: Event ID and number of tickets to book
+        std::string eventID;
+        int numTickets;
+        std::cin >> eventID >> numTickets;
+
+        // Book tickets for the specified event
+        eventManager.bookTickets(eventID, numTickets);
+
+    } catch (const InvalidEventIDException& e) {
+        std::cout << "Exception caught: Error: " << e.what() << std::endl;
+
+    } catch (const InsufficientSeatsException& e) {
+        std::cout << "Exception caught: Error: " << e.what() << std::endl;
+
+    } catch (const MaxEventsReachedException& e) {
+        std::cout << "Exception caught: Error: " << e.what() << std::endl;
+    }
+
+    return 0;
+}

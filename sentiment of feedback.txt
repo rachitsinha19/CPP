@@ -1,0 +1,34 @@
+#include <iostream>
+#include <stdexcept>
+
+int main() {
+    try {
+        // Input: User enters an integer
+        int userInput;
+        std::cin >> userInput;
+
+        // Check if the input is positive, negative, or zero
+        if (userInput > 0) {
+            throw std::string("You Entered Positive number");
+        } else if (userInput < 0) {
+            throw 'N'; // Using a character to differentiate between positive and negative
+        } else {
+            throw 0; // Using an integer to represent zero
+        }
+
+    } catch (const std::string& message) {
+        std::cout << message << std::endl;
+
+    } catch (char c) {
+        if (c == 'N') {
+            std::cout << "You Entered Negative Number" << std::endl;
+        }
+
+    } catch (int i) {
+        if (i == 0) {
+            std::cout << "You Entered Zero" << std::endl;
+        }
+    }
+
+    return 0;
+}

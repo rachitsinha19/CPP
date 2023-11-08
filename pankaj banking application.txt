@@ -1,0 +1,33 @@
+#include <iostream>
+#include <stdexcept>
+
+int main() {
+    try {
+        // Input: Initial balance
+        double initialBalance;
+        std::cin >> initialBalance;
+
+        // Input: Withdrawal amount
+        double withdrawalAmount;
+        std::cin >> withdrawalAmount;
+
+        // Check if withdrawal amount is greater than the account balance
+        if (withdrawalAmount > initialBalance) {
+            throw std::underflow_error("Insufficient money for withdrawal.");
+        }
+
+        // Process withdrawal
+        initialBalance -= withdrawalAmount;
+
+        // Output: Display new account balance after withdrawal
+        std::cout << "Withdrawal successful." << std::endl;
+        std::cout << "New balance: " << initialBalance << std::endl;
+
+    } catch (const std::underflow_error& e) {
+        // Catch and handle the underflow error
+        std::cout << "Exception caught." << std::endl;
+        std::cout << "Error: " << e.what() << std::endl;
+    }
+
+    return 0;
+}

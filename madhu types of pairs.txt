@@ -1,0 +1,59 @@
+#include <iostream>
+
+template <class T1, class T2>
+class Pair {
+private:
+    T1 first;
+    T2 second;
+
+public:
+    Pair(T1 a, T2 b) : first(a), second(b) {}
+
+    void swap() {
+        T1 temp = first;
+        first = second;
+        second = temp;
+    }
+
+    void display() const {
+        std::cout << "Values before swap:" << std::endl;
+        std::cout << "First: " << first << std::endl;
+        std::cout << "Second: " << second << std::endl;
+    }
+
+    // Accessor functions to retrieve values after swap
+    T1 getFirst() const {
+        return first;
+    }
+
+    T2 getSecond() const {
+        return second;
+    }
+};
+
+int main() {
+    float floatValue;
+    double doubleValue;
+
+    // Input float value
+    std::cin >> floatValue;
+
+    // Input double value
+    std::cin >> doubleValue;
+
+    // Create Pair object with float and double values
+    Pair<float, double> myPair(floatValue, doubleValue);
+
+    // Display values before swap
+    myPair.display();
+
+    // Swap values
+    myPair.swap();
+
+    // Display values after swap
+    std::cout << "Values after swap:" << std::endl;
+    std::cout << "First: " << myPair.getFirst() << std::endl;
+    std::cout << "Second: " << myPair.getSecond() << std::endl;
+
+    return 0;
+}

@@ -1,0 +1,44 @@
+#include <iostream>
+#include <cmath>
+#include <stdexcept>
+
+// Custom exception for negative exponents
+class NegativeExponentException : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "Negative exponents are not supported.";
+    }
+};
+
+// Function to calculate power with exception handling
+double calculatePower(double base, int exponent) {
+    if (exponent < 0) {
+        throw NegativeExponentException();
+    }
+
+    return std::pow(base, exponent);
+}
+
+int main() {
+    try {
+        // Input: Base value
+        double base;
+        std::cin >> base;
+
+        // Input: Exponent value
+        int exponent;
+        std::cin >> exponent;
+
+        // Calculate power with exception handling
+        double result = calculatePower(base, exponent);
+
+        // Output: Display the result
+        std::cout << result << std::endl;
+
+    } catch (const NegativeExponentException& e) {
+        // Catch and handle the custom exception for negative exponents
+        std::cout << "Exception caught. Error: " << e.what() << std::endl;
+    }
+
+    return 0;
+}
