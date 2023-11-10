@@ -1,0 +1,65 @@
+#include <iostream>
+#include <unordered_map>
+
+using namespace std;
+
+unordered_map<string, pair<int, float>> order; // unordered_map to store the food items and their details
+
+void addOrder() {
+    string itemName;
+    int quantity;
+    float price;
+    
+    cin >> itemName >> quantity >> price;
+    
+    order[itemName] = make_pair(quantity, price);
+}
+
+void updateQuantity() {
+    string itemName;
+    int newQuantity;
+    
+    cin >> itemName >> newQuantity;
+    
+    if (order.find(itemName) != order.end()) {
+        order[itemName].first = newQuantity;
+    } else {
+        cout << "Item not found in the order." << endl;
+    }
+}
+
+void calculateTotalBill() {
+    float totalBill = 0;
+    
+    for (auto it : order) {
+        totalBill += it.second.first * it.second.second;
+    }
+    
+    cout << "Total Bill: $" << totalBill << endl;
+}
+
+int main() {
+    int choice;
+    
+    while (true) {
+        cin >> choice;
+        
+        switch (choice) {
+            case 1:
+                addOrder();
+                break;
+            case 2:
+                updateQuantity();
+                break;
+            case 3:
+                calculateTotalBill();
+                break;
+            case 4:
+                return 0;
+            default:
+                cout << "Invalid choice" << endl;
+        }
+    }
+
+    return 0;
+}

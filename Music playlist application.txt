@@ -1,0 +1,43 @@
+#include <iostream>
+#include <list>
+#include <algorithm>
+
+std::list<int> getUniqueElements(const std::list<int>& inputList) {
+    std::list<int> uniqueList;
+
+    for (int songID : inputList) {
+        // Check if the songID is not already in the uniqueList
+        if (std::find(uniqueList.begin(), uniqueList.end(), songID) == uniqueList.end()) {
+            uniqueList.push_back(songID);
+        }
+    }
+
+    // Sort the uniqueList
+    uniqueList.sort();
+
+    return uniqueList;
+}
+
+int main() {
+    // Input
+    int N;
+    std::cin >> N;
+
+    std::list<int> songsList;
+    for (int i = 0; i < N; ++i) {
+        int songID;
+        std::cin >> songID;
+        songsList.push_back(songID);
+    }
+
+    // Get unique elements and sort
+    std::list<int> uniqueList = getUniqueElements(songsList);
+
+    // Output
+    for (int songID : uniqueList) {
+        std::cout << songID << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}

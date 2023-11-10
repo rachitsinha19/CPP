@@ -1,0 +1,36 @@
+#include <iostream>
+#include <list>
+#include <unordered_set>
+
+int main() {
+    int n;
+    std::cin >> n;
+
+    if (n > 15) {
+        std::cout << -1 << std::endl;
+        return 0;
+    }
+
+    std::list<int> startingBids;
+    std::unordered_set<int> uniqueBids;
+
+    for (int i = 0; i < n; ++i) {
+        int bid;
+        std::cin >> bid;
+
+        if (uniqueBids.find(bid) == uniqueBids.end()) {
+            // This bid is unique, add it to both the list and the set
+            startingBids.push_back(bid);
+            uniqueBids.insert(bid);
+        }
+    }
+
+    int sum = 0;
+    for (int bid : uniqueBids) {
+        sum += bid;
+    }
+
+    std::cout << "Sum of unique elements: " << sum << std::endl;
+
+    return 0;
+}
