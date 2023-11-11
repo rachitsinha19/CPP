@@ -1,0 +1,90 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+class Song {
+public:
+    std::string title;
+    std::string artist;
+    int duration;
+
+    Song(std::string t, std::string a, int d) : title(t), artist(a), duration(d) {}
+};
+
+class Playlist {
+private:
+    std::vector<Song> songs;
+
+public:
+    // Function to add a new song to the playlist
+    void addSong(std::string title, std::string artist, int duration) {
+        Song newSong(title, artist, duration);
+        songs.push_back(newSong);
+        std::cout << "Song added: " << title << " by " << artist << " (" << duration << " seconds)" << std::endl;
+    }
+
+    // Function to remove a song from the playlist
+    void removeSong(std::string title) {
+        auto it = std::remove_if(songs.begin(), songs.end(), [title](const Song& s) {
+            return s.title == title;
+        });
+
+        if (it != songs.end()) {
+            songs.erase(it, songs.end());
+            std::cout << "Song removed: " << title << std::endl;
+        } else {
+            std::cout << "Error: Song not found in the playlist." << std::endl;
+        }
+    }
+
+    // Function to display the details of all songs in the playlist
+    void displayPlaylist() {
+        std::cout << "Playlist:" << std::endl;
+        for (const auto& song : songs) {
+            std::cout << " " << song.title << " " << song.artist << " " << song.duration << std::endl;
+        }
+    }
+};
+
+int main() {
+    Playlist playlist;
+
+    int choice;
+    do {
+        std::cin >> choice;
+
+        switch (choice) {
+            case 1: {
+                std::string title, artist;
+                int duration;
+
+                std::cin.ignore(); // Consume the newline character
+                std::getline(std::cin, title);
+                std::getline(std::cin, artist);
+                std::cin >> duration;
+
+                playlist.addSong(title, artist, duration);
+                break;
+            }
+            case 2: {
+                std::string title;
+                std::cin.ignore(); // Consume the newline character
+                std::getline(std::cin, title);
+
+                playlist.removeSong(title);
+                break;
+            }
+            case 3:
+                playlist.displayPlaylist();
+                break;
+            case 4:
+                std::cout << "Exiting the program." << std::endl;
+                break;
+            default:
+                std::cout << "Invalid choice" << std::endl;
+        }
+
+    } while (choice != 4);
+
+    return 0;
+}

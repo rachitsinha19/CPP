@@ -1,0 +1,93 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+class MilkBrand {
+public:
+    std::string name;
+    int quantity;
+    double pricePerLiter;
+
+    MilkBrand(std::string n, int q, double p) : name(n), quantity(q), pricePerLiter(p) {}
+};
+
+class MilkInventory {
+private:
+    std::vector<MilkBrand> inventory;
+
+public:
+    // Function to add a new milk brand to the inventory
+    void addMilkBrand(std::string name, int quantity, double pricePerLiter) {
+        MilkBrand newBrand(name, quantity, pricePerLiter);
+        inventory.push_back(newBrand);
+        std::cout << "Milk brand \"" << name << "\" added to the inventory." << std::endl;
+    }
+
+    // Function to update the quantity of milk for a specific brand
+    void updateMilkQuantity(std::string name, int newQuantity) {
+        auto it = std::find_if(inventory.begin(), inventory.end(), [name](const MilkBrand& brand) {
+            return brand.name == name;
+        });
+
+        if (it != inventory.end()) {
+            it->quantity = newQuantity;
+            std::cout << "Quantity for milk brand \"" << name << "\" updated to " << newQuantity << " liters." << std::endl;
+        } else {
+            std::cout << "Error: Milk brand \"" << name << "\" not found in the inventory." << std::endl;
+        }
+    }
+
+    // Function to display the details of the milk inventory
+    void displayInventory() {
+        std::cout << "Milk Inventory Details:" << std::endl;
+        for (const auto& brand : inventory) {
+            std::cout << "Brand: " << brand.name << ", Quantity (Liters): " << brand.quantity << ", Price per Liter: $" << brand.pricePerLiter << std::endl;
+        }
+    }
+};
+
+int main() {
+    MilkInventory milkInventory;
+
+    int choice;
+    do {
+        std::cin >> choice;
+
+        switch (choice) {
+            case 1: {
+                std::string name;
+                int quantity;
+                double pricePerLiter;
+
+                std::cin.ignore(); // Consume the newline character
+                std::getline(std::cin, name);
+                std::cin >> quantity >> pricePerLiter;
+
+                milkInventory.addMilkBrand(name, quantity, pricePerLiter);
+                break;
+            }
+            case 2: {
+                std::string name;
+                int newQuantity;
+
+                std::cin.ignore(); // Consume the newline character
+                std::getline(std::cin, name);
+                std::cin >> newQuantity;
+
+                milkInventory.updateMilkQuantity(name, newQuantity);
+                break;
+            }
+            case 3:
+                milkInventory.displayInventory();
+                break;
+            case 4:
+                std::cout << "Exiting the program." << std::endl;
+                break;
+            default:
+                std::cout << "Invalid choice" << std::endl;
+        }
+
+    } while (choice != 4);
+
+    return 0;
+}
